@@ -45,7 +45,8 @@ selected_features<-c("x",
 cat(paste0("***Initialization***", "\n"))
 
 # n_centroidi <- 7
-multi_centroidi<-  seq(from=2, to=50, by=5) #c(4)
+#multi_centroidi<-  seq(from=20, to=30, by=2) #c(4)
+multi_centroidi<-  seq(from=3, to=30, by=1) #c(4)
 N <- 1000
 
 bics<-c()
@@ -180,19 +181,19 @@ for (n_centroidi in multi_centroidi){
     centroid_distribution.norm<-centroid_distribution/sum(centroid_distribution)
     reference<-rep(mean(centroid_distribution),length(centroid_distribution) )
     reference.norm<-reference/sum(reference)
-    chi<-chisq.test(centroid_distribution.norm*1000, p = reference.norm)
+    #chi<-chisq.test(centroid_distribution.norm*1000, p = reference.norm)
     #chi<-chisq.test(centroid_distribution.norm, p = reference.norm)
-    centroid_distribution.norm2<-centroid_distribution.norm
-    centroid_distribution.norm2[which(centroid_distribution.norm>=reference.norm)]<-1
-    centroid_distribution.norm2[which(centroid_distribution.norm<reference.norm)]<-0
+    #centroid_distribution.norm2<-centroid_distribution.norm
+    #centroid_distribution.norm2[which(centroid_distribution.norm>=reference.norm)]<-1
+    #centroid_distribution.norm2[which(centroid_distribution.norm<reference.norm)]<-0
     #chi<-chisq.test(centroid_distribution.norm2, p = reference.norm)
-    bic<-chi$p.value
-    chisq<-sum((centroid_distribution.norm-reference.norm)^2/reference.norm)
-    bic<-chisq
+    #bic<-chi$p.value
+    chisq<-sum((centroid_distribution.norm-reference.norm)^2/reference.norm)/length(centroid_distribution.norm)
+    bic<-1/chisq
     #kst<-ks.test(centroid_distribution, "punif")
     cat("Centroid distribution:",centroid_distribution.norm,"\n")
   }
-  cat("ChiSqr:",bic,"\n")
+  cat("Unif:",bic,"\n")
   bics<-c(bics,bic)
   cat("Done\n")
 }
