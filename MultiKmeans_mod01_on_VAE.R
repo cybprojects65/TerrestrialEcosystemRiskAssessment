@@ -181,16 +181,25 @@ for (n_centroidi in multi_centroidi){
     centroid_distribution.norm<-centroid_distribution/sum(centroid_distribution)
     reference<-rep(mean(centroid_distribution),length(centroid_distribution) )
     reference.norm<-reference/sum(reference)
-    #chi<-chisq.test(centroid_distribution.norm*1000, p = reference.norm,correct = T)
-    #chi<-chisq.test(centroid_distribution.norm, p = reference.norm)
-    #centroid_distribution.norm2<-centroid_distribution.norm
-    #centroid_distribution.norm2[which(centroid_distribution.norm>=reference.norm)]<-1
-    #centroid_distribution.norm2[which(centroid_distribution.norm<reference.norm)]<-0
-    #chi<-chisq.test(centroid_distribution.norm2, p = reference.norm)
-    #bic<-chi$p.value
     chisq<-sum((centroid_distribution.norm-reference.norm)^2/reference.norm)/length(centroid_distribution.norm)
+    #high chisqr-> worse agreement with uniform distr
+    #since we are selecting the maximum, let's invert the bic
     bic<-1/chisq
-    #kst<-ks.test(centroid_distribution, "punif")
+    
+    #EXPLANATION OF THE CHI SQR CRITERION:
+    #chi sqr probability calculation: for study purposes
+    #the probability that the chisqr is lower than the calculcation has the inverse trend of the chisqr value
+    #a small chisqr calculated means a higher probability of matching
+    #a high chisqr calculated means a lower probability of matching
+    #let's calculate the P(chisqr>chisqr_calculated), because the theoretical expected value of chisqr is 1
+    #if this prob is high, chisqr_calculated is too far from the expected value-> non uniform distribution
+    #if it is low then the chisqr_calculated is in line with the expected value-> more uniform distribution
+    #uncomment for 
+    #p_value <- pchisq(chisq, df = length(centroid_distribution.norm)-1, lower.tail = FALSE)
+    #invert the criterion: high bic should be preferred because it corresponds to low p_value
+    #bic<-1/p_value
+
+    cat("pvalue:",p_value,"\n")
     cat("Centroid distribution:",centroid_distribution.norm,"\n")
   }
   cat("Unif:",bic,"\n")
