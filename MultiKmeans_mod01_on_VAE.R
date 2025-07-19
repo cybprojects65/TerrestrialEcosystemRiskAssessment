@@ -179,12 +179,13 @@ for (n_centroidi in multi_centroidi){
     bic<-0
   }else{
     centroid_distribution.norm<-centroid_distribution/sum(centroid_distribution)
-    reference<-rep(mean(centroid_distribution),length(centroid_distribution) )
-    reference.norm<-reference/sum(reference)
+    #reference<-rep(mean(centroid_distribution),length(centroid_distribution) )
+    reference.norm <- rep(1/length(centroid_distribution),length(centroid_distribution))
+    #reference/sum(reference)
     chisq<-sum((centroid_distribution.norm*1000-reference.norm*1000)^2/(reference.norm*1000))/length(centroid_distribution.norm)
     #high chisqr-> worse agreement with uniform distr
     #since we are selecting the maximum, let's invert the unif
-    #bic<-1/chisq
+    bic<-1/chisq
     
     #EXPLANATION OF THE CHI SQR CRITERION:
     #chi sqr probability calculation: for study purposes
@@ -194,10 +195,10 @@ for (n_centroidi in multi_centroidi){
     #let's calculate the P(chisqr>chisqr_calculated), because the theoretical expected value of chisqr is 1
     #if this prob is high, chisqr_calculated is consistent with the expected value-> uniform distribution
     #if it is low then the chisqr_calculated is too far from the expected value-> non uniform distribution
-    p_value <- pchisq(chisq, df = length(centroid_distribution.norm)-1, lower.tail = FALSE)
+    #p_value <- pchisq(chisq, df = length(centroid_distribution.norm)-1, lower.tail = FALSE)
     #invert the criterion: high bic should be preferred because it corresponds to low p_value
-    bic<-p_value
-    cat("pvalue:",p_value,"\n")
+    #bic<-p_value
+    #cat("pvalue:",p_value,"\n")
     
     cat("Centroid distribution:",centroid_distribution.norm,"\n")
   }
