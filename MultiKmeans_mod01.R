@@ -201,7 +201,7 @@ for (n_centroidi in multi_centroidi){
     p_value <- pchisq(chisq, df = length(centroid_distribution.norm)-1, lower.tail = FALSE)
     #invert the criterion: high bic should be preferred because it corresponds to low p_value
     bic<-p_value
-    #cat("pvalue:",p_value,"\n")
+    cat("pvalue:",p_value,"\n")
     
     cat("Centroid distribution:",centroid_distribution.norm,"\n")
   }
