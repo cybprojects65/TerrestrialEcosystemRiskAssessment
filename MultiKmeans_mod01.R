@@ -190,6 +190,8 @@ for (n_centroidi in multi_centroidi){
     #high chisqr-> worse agreement with uniform distr
     #since we are selecting the maximum, let's invert the unif
     bic<-1/chisq
+    #z_chisq<-(chisq-1)/(sqrt(2/length(centroid_distribution.norm))) #standardized bic to make the chi square distributions more comparable
+    #bic<-1/z_chisq #correction to discourage many cluster solutions through chi square standardization
     
     #EXPLANATION OF THE CHI SQR CRITERION:
     #chi sqr probability calculation: for study purposes
