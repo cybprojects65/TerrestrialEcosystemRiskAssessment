@@ -1,3 +1,0 @@
-The heatmaps are the results of the selection of the points falling in the medium and high risk clusters detected after human interpretation of risk
-The clusters for ecosystem and anthropic risks were selected separately as two different CSV files
-A Kernel Density interpolation was applied to each point dataset separately, with a radius of 0.003° and a spatial resolution of 0.0005°, to produce the heatmaps
