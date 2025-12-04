@@ -2,9 +2,9 @@
 #####                        VAE con Java                                  #####
 ################################################################################
 
-############################### PREREQUISITE: VAE-MODEL JAR FILE DOWNLOADABLE FROM #########################################
-#https://data.d4science.org/shub/E_RmlXSjJSbFVhZmVyT25YTFJJYlY1a3BJRWc0T0xueUVIOWNXamR3dStNV3RMZDl2WThJRE5rckY0b1cwWVU1Kw==#
-############################################################################################################################
+#Before running this script, make sure you have Java installed on your system.
+#Download the VAE model jar file from the link provided below and place it in your working directory.
+#https://data.d4science.org/shub/E_RmlXSjJSbFVhZmVyT25YTFJJYlY1a3BJRWc0T0xueUVIOWNXamR3dStNV3RMZDl2WThJRE5rckY0b1cwWVU1Kw==
 
 ################################################################################
 #####                        Training                                      #####
@@ -13,11 +13,10 @@
 # Remove  all objects from R memory
 rm(list=ls())
 
-anno <- "2024_pr" #il 2017 è il training, per passare agli anni dopo sostituisci qui, in questo caso ho solo un anno di riferimento 
+anno <- "2024_pr" #in this case, there is only one reference year 
 
 
-#input_file_path <-"Complete_dataset_mediterranean_sea_2021_2021_2021_2021_2021_2050RCP8.5.csv"
-input_file_path <-paste0("input/risk1_overlap_standardized_no_na.csv") #questo è il file che contiene le variabili di input, in questo caso sono le variabili di rischio standardizzate. Le variabili non devono contenere NA#variable_names<- "environment 2021_land_distance,environment 2021_mean_depth"
+input_file_path <-paste0("input/risk1_overlap_standardized_no_na.csv") 
 
 variable_names<- paste0( "out003_land_imperviousness_density_change_2024pr,",
                         "out009_tree_cover_density_2024pr,",
@@ -33,17 +32,17 @@ variable_names<- paste0( "out003_land_imperviousness_density_change_2024pr,",
                         "out147_land_use_and_cover_change_2024pr"
                         )
 
-valutazione <- FALSE #se è true allora si fa la valutazione del modello, se è false no, in questo caso non serve
+valutazione <- FALSE
 
-number_of_hidden_nodes <- 10 #si parte con un numero di nodi nascosti pari alle variabili di input, ma va trovato il valore che evidenzi i dati anomali considerata la grana dell'analisi (in sostanza quanti dati anomali voglio individuare?)
+number_of_hidden_nodes <- 10
 number_of_epochs <- 1000
 output_folder <- paste0("./output/VAE_varational_auto_encoder/out_2024_pr_n",number_of_hidden_nodes,"_test/")
 
 model_folder <- paste0("./output/VAE_varational_auto_encoder/out_2024_pr_n",number_of_hidden_nodes,"_test/")
-number_of_reconstruction_samples <- 16 #numero di campioni di ricostruzione da utilizzare durante il test, che può essere regolato in base alla dimensione del dataset e alla complessità del modello (in genere si lascia 16)
-trained_model_file<-paste0(model_folder,"model_norm_49382X12_240056a46844f48936e43344446c54552153b71652737d46#12.bin") #questo è il file del modello pre-addestrato da utilizzare durante il test (si genera nella cartella di output), che deve essere specificato solo se si esegue il test, in questo caso è un file di esempio, ma va sostituito con il file del modello addestrato durante la fase di training
-#prima di lanciare la fase di test/predizione ricordarsi di rinominare tutti i file nella cartella out come semplicemente "model"
-training_mode_active<-"false"# #se è true allora si fa il training, se è false si fa la predizione/test, il training si fa sempre all'inizio
+number_of_reconstruction_samples <- 16
+trained_model_file<-paste0(model_folder,"model_norm_49382X12_240056a46844f48936e43344446c54552153b71652737d46#12.bin")
+#Before launching the testing/prediction phase, remember to rename all files in the out folder simply as ‘model’.
+training_mode_active<-"false"#if true then training is performed, if false then prediction/testing is performed, training is always performed at the beginning
 
 
 if(training_mode_active=="true"){
@@ -82,19 +81,19 @@ if(training_mode_active=="true"){
   writeLines(VAU_execution_test, log_file)
   
   ################################################################################
-  #####                           valutazione                                #####
+  #####                           assessment                                #####
   ################################################################################
   
   
   file_pattern <- "classification_test_"
   files <- list.files(path = output_folder, pattern = paste0("^", file_pattern))
   if (length(files) == 1) {
-    # Costruire il percorso completo del file
+    # Build the complete file path
     file_path <- file.path(output_folder, files[1])
     
-    # Leggi il file CSV
+    # Read the CSV file
     data_projected <- read.csv(file_path,header = TRUE)
-    # Visualizza i primi 6 dati
+    # Display the first 6 data items
     head(data)
   } else {
     cat("Più di un file trovato o nessun file trovato.")
@@ -118,9 +117,9 @@ if(training_mode_active=="true"){
   file_pattern <- "classification_test_"
   files <- list.files(path = output_folder, pattern = paste0("^", file_pattern))
   
-  data2 <- read.csv(paste0(output_folder,files), header=TRUE, sep=",")    # questo è il file che mi genera il vae come output
+  data2 <- read.csv(paste0(output_folder,files), header=TRUE, sep=",")    # this is the file that generates the vae as output
   
-  data3 <- read.csv(input_file_path, header=TRUE, sep=",")    #questo è l'originale input multi k means
+  data3 <- read.csv(input_file_path, header=TRUE, sep=",")    #this is the original input
   
   data4 <- cbind(data3$longitude, data3$latitude, data2$reconstruction_log_probability)
   colnames(data4) <- c("x", "y", "reconstruction_log_probability")

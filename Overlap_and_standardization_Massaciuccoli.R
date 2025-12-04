@@ -12,7 +12,7 @@ library(tidyverse)
 all_variables <- read.csv("input/data_values.csv", sep = ",", header = TRUE, stringsAsFactors = FALSE)
 #head(all_variables)
 
-# colonne da selezionare
+# columns to select
 variables_risk1_original <- all_variables [, c(
   "x",
   "y",
@@ -30,7 +30,7 @@ variables_risk1_original <- all_variables [, c(
   "out147_land_use_and_cover_change_2024pr"
 )]   # <-- inserisci qui i codici che ti servono
 
-# Esportazione CSV variables_risk1_original
+# Export CSV variables_risk1_original
 
 #cat("Exporting variables_risk1_original dataframe to CSV...\n")
 #write.csv(variables_risk1_original, "output/Overlap/variables_risk1_original.csv", row.names = FALSE)
