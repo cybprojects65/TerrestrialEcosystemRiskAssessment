@@ -9,7 +9,7 @@ rm(list = ls())
 library(tidyverse)
 
 #--- Step 1. Selection of variables for risk calculation 1 and export of the original table to CSV format ---####
-all_variables <- read.csv("input/data_values.csv", sep = ",", header = TRUE, stringsAsFactors = FALSE)
+all_variables <- read.csv("input/source_data_values.csv", sep = ",", header = TRUE, stringsAsFactors = FALSE)
 #head(all_variables)
 
 # columns to select

@@ -16,7 +16,7 @@ rm(list=ls())
 anno <- "2024_pr" #in this case, there is only one reference year 
 
 
-input_file_path <-paste0("input/risk1_overlap_standardized_no_na.csv") 
+input_file_path <-paste0("output/Overlap/risk1_overlap_standardized_no_na.csv") 
 
 variable_names<- paste0( "out003_land_imperviousness_density_change_2024pr,",
                         "out009_tree_cover_density_2024pr,",
@@ -42,7 +42,7 @@ model_folder <- paste0("./output/VAE_varational_auto_encoder/out_2024_pr_n",numb
 number_of_reconstruction_samples <- 16
 trained_model_file<-paste0(model_folder,"model_norm_49382X12_240056a46844f48936e43344446c54552153b71652737d46#12.bin")
 #Before launching the testing/prediction phase, remember to rename all files in the out folder simply as ‘model’.
-training_mode_active<-"false"#if true then training is performed, if false then prediction/testing is performed, training is always performed at the beginning
+training_mode_active<-"true"#if true then training is performed, if false then prediction/testing is performed, training is always performed at the beginning
 
 
 if(training_mode_active=="true"){
@@ -121,7 +121,7 @@ if(training_mode_active=="true"){
   
   data3 <- read.csv(input_file_path, header=TRUE, sep=",")    #this is the original input
   
-  data4 <- cbind(data3$longitude, data3$latitude, data2$reconstruction_log_probability)
+  data4 <- cbind(data3$x, data3$y, data2$reconstruction_log_probability)
   colnames(data4) <- c("x", "y", "reconstruction_log_probability")
   
   write.csv(data4, paste0(output_folder, "output_VAE_", anno, ".csv"), row.names = FALSE)
