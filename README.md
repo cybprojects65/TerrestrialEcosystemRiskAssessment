@@ -41,6 +41,7 @@ url = {https://www.sciencedirect.com/science/article/pii/S1574954126002797},
 
 ## Repository structure
 
+```text
 ├── input/
 │ └── source_data_values.csv
 ├── 01_Overlap_and_standardization_Massaciuccoli.R
@@ -53,6 +54,7 @@ url = {https://www.sciencedirect.com/science/article/pii/S1574954126002797},
 │ └── MultiKmeans_on_VAE/
 │ └── VAE_varational_auto_encoder/
 └── Interpretation_high_attention_cluster_MKM_MKMonVAE/
+```
 
 ---
 
